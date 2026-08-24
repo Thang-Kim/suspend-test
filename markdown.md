@@ -58,27 +58,31 @@ reviewers:
 
 # A list of project links is one field about files, so it takes the file kind
 # whole rather than being split per item.
-related_docs:
-  - thang.lk@holistics.io
-  - "[This one is missing](/2.%20Serious/does-not-exist.md)"
-  - "[Orders model](../models/orders.model.aml)"
-  - "[Sales dataset](../datasets/sales.dataset.aml)"
-  - "[Revenue overview](../pages/revenue-overview.page.aml)"
-  - "[Metrics glossary](metrics-glossary.md)"
-file1: abc.model.aml
-files: [abc.model.aml, xyz.dataset.aml]
-tag: [a, b, c]
-list: [x, y, z]
-
-# URL — an outbound address, bare or as a markdown link.
-docs_site: https://docs.holistics.io
-changelog: "[Release notes](https://docs.holistics.io/release-notes)"
-
-# Lines — a list the pill layout turns down, because these read as phrases
-# rather than as tags.
-review_flags:
-  - needs review before publishing
-  - owned by the data platform team
+demo: mardown rendering in GitHub
+link+text+tag: https://docs.holistics.io Can render text, but not tag [tag, tag, tag]
+link+tag: https://docs.holistics.io [tag, tag, tag]
+email: thang.lk@holistics.io - just normal text, no underline
+link+email: https://docs.holistics.io thang.lk@holistics.io
+x-types+link:
+  default: x-types render as table
+  link: https://docs.holistics.io/release-notes - support links
+  doesn't support: tag and list with x-types
+tag: [tag, tag, tag]
+list:
+  - list 1
+  - list 2 - same style with tag
+list+tag:
+  - list 1
+  - list 2 have same style with tag
+  - list then tag
+    [tag, tag, tag] - won't render as tag
+  - [tag, tag, tag]
+    
+tag+list:
+  - [tag, tag, tag]
+  - list 1
+  - list have same style with tag
+  - list then tag
 
 # The escape hatch. Inference reads values, and some values are genuinely
 # ambiguous: `support@` is email-shaped but names a mailbox, and `build_number`
