@@ -84,6 +84,24 @@ tag+list:
   - list have same style with tag
   - list then tag
 
+tag+link:
+  - [will, not, work]
+
+tag+text:
+  - [will, not, work]
+
+link+tag:
+  - https://docs.holistics.io/release-notes [tag, tag, tag]
+
+
+related_docs:
+  - "[Frontmatter parser](/lib/markdown/frontmatter.ts)"
+  - "[This one is missing](/2.%20Serious/does-not-exist.md)"
+  - "[Orders model](../models/orders.model.aml)"
+  - "[Sales dataset](../datasets/sales.dataset.aml)"
+  - "[Revenue overview](../pages/revenue-overview.page.aml)"
+  - "[Metrics glossary](metrics-glossary.md)"
+  - thang.lk@holistics.io
 # The escape hatch. Inference reads values, and some values are genuinely
 # ambiguous: `support@` is email-shaped but names a mailbox, and `build_number`
 # is a number by shape but an identifier by meaning. Listing a key here overrides
