@@ -14,13 +14,10 @@ tags:
   - aql
   - analytics
   - markdown
-audience: [new-hire, analyst, marketplace-ops, ai-agent]
 authors:
   - name: Data Platform Team
     email: data-platform@holistics.io
 updated: 2026-08-04
-
-
 
 # Text — the fallback.
 status: published
@@ -44,7 +41,7 @@ issue_ref: 15971
 deprecated: false
 
 # Date — ISO, or written the way a person writes one.
-review_due: 23 Dec 2026
+review_due: 23 Dec 2026 thang.lk@holistics.io
 
 # Time — a bare clock time, or a full timestamp keeping both halves.
 docs_build_at: "09:30"
@@ -58,16 +55,78 @@ reviewers:
 
 # A list of project links is one field about files, so it takes the file kind
 # whole rather than being split per item.
-demo: mardown rendering in GitHub
-link+text+tag: https://docs.holistics.io Can render text, but not tag [tag, tag, tag]
+related_docs:
+  - "[Frontmatter parser](/lib/markdown/frontmatter.ts)"
+  - "[This one is missing](/2.%20Serious/does-not-exist.md)"
+  - "[Orders model](../models/orders.model.aml)"
+  - "[Sales dataset](../datasets/sales.dataset.aml)"
+  - "[Revenue overview](../pages/revenue-overview.page.aml)"
+  - "[Metrics glossary](metrics-glossary.md)"
+  - [a,b,c] 
+
+
+file-link_inside_tag: ["[Frontmatter parser](/lib/markdown/frontmatter.ts)" , "[This one is missing](/2.%20Serious/does-not-exist.md)"] 
+
+
+# A bare path is not a file link. The file kind is claimed only for a markdown
+# link whose target carries no scheme, so these keep the kinds their shapes
+# earn: one scalar of text, and a list short and unspaced enough to read as pills.
+
+
+# `tags` is matched exactly, so the singular key is an ordinary inferred list
+# and earns its pills the usual way rather than by being reserved.
+
+# URL — an outbound address, bare or as a markdown link.
+docs_site: https://docs.holistics.io
+changelog: "[Release notes](https://docs.holistics.io/release-notes)"
+
+# Chips — an *inferred* list, unlike `tags` above: every item is short,
+# unspaced and free of inline markdown, so the pill layout is earned rather
+# than reserved. Compare with `review_flags` directly below.
+audience: [new-hire, analyst, marketplace-ops, ai-agent]
+
+files: [abc.model.aml, xyz.dataset.aml]
+
+# Lines — a list the pill layout turns down, because these read as phrases
+# rather than as tags.
+review_flags:
+  - needs review before publishing
+  - owned by the data platform team
+
+
+
+
+
+
+# Combination — a value carrying two facts is still one string, and one string
+# gets one kind. Neither of these matches a shape test, so both fall to text:
+# the address loses its mailto, the tags lose their pills, the clock its mark.
+user_and_tags: thang.lk@holistics.io [a,b,c]
+link_and_tags: https://docs.holistics.io [a,b,c]
+tags_and_user: [will, not, work] 
+email_time: thang.lk@holistics.io 14:30
+time_email: 14:30 thang.lk@holistics.io
+
+
+link_text_tag: https://docs.holistics.io Can render text, but not tag [tag, tag, tag]
+
 link+tag: https://docs.holistics.io [tag, tag, tag]
-email: thang.lk@holistics.io - just normal text, no underline
+
 link+email: https://docs.holistics.io thang.lk@holistics.io
+
 x-types+link:
   default: x-types render as table
   link: https://docs.holistics.io/release-notes - support links
   doesn't support: tag and list with x-types
-tag: [tag, tag, tag]
+
+text_tag: text [a,b,c] 
+tag_link_inside: [a, https://docs.holistics.io, c]  
+tag_email_inside: [a, thang.lk@holistics.io, c]  
+
+tag_link_inside: [a, https://github.com/Thang-Kim/suspend-test/tree/a-, c]  
+
+tag_inside_tag: [a, b: [asd], c, b-not-rendering]
+
 list:
   - list 1
   - list 2 - same style with tag
@@ -84,33 +143,47 @@ tag+list:
   - list have same style with tag
   - list then tag
 
-tag+link:
+tag_link:
+  - [will, not, work] 
+
+tag_text:
   - [will, not, work]
 
-tag+text:
+tag_email:
   - [will, not, work]
 
-link+tag:
-  - https://docs.holistics.io/release-notes [tag, tag, tag]
 
 
-related_docs:
-  - "[Frontmatter parser](/lib/markdown/frontmatter.ts)"
-  - "[This one is missing](/2.%20Serious/does-not-exist.md)"
-  - "[Orders model](../models/orders.model.aml)"
-  - "[Sales dataset](../datasets/sales.dataset.aml)"
-  - "[Revenue overview](../pages/revenue-overview.page.aml)"
-  - "[Metrics glossary](metrics-glossary.md)"
-  - thang.lk@holistics.io
+
+
+# The fix is two keys carrying one fact each. The `_by`/`_at` pair types
+# correctly with no override.
+signed_off_by: thang.lk@holistics.io
+signed_off_at: "14:30"
+
+# A date and a time do combine, because the timestamp test matches the pair
+# whole. Only in this shape: `23 Dec 2026 09:30` is text.
+released_at: 2026-12-23 09:30
+
+# A mixed list keeps the list layout but demotes the address to a pill.
+# `person` is the way back: it reads each item, so the address links and the
+# bare word beside it prints as a name.
+
+approvers: [thang.lk@holistics.io, unassigned]
+
 # The escape hatch. Inference reads values, and some values are genuinely
 # ambiguous: `support@` is email-shaped but names a mailbox, and `build_number`
 # is a number by shape but an identifier by meaning. Listing a key here overrides
 # what was inferred; everything unlisted still infers. This key never renders.
+
 contact: support@holistics.io
+
 build_number: 4821
+
 x-types:
   contact: text
   build_number: text
+  approvers: person
 ---
 
 # YAML
@@ -131,16 +204,17 @@ x-types:
 │ #  page_count    1284                           │  row 5  │
 │ ☑  peer_reviewed ☑                              │  row 6  │
 │ 📄 related_model  📄 Renderer tokens             │  row 7  ┘
-│ ⌄  14 more properties           ← toggle        │
+│ ⌄  24 more properties           ← toggle        │
 └─────────────────────────────────────────────────┘
      ↑16px  ↑9.5rem label      ↑ value 13/20
      0.25px gap to label; 0.75rem column gap; 1rem row gap
 ```
 
 The seven visible rows deliberately draw seven *different* marks — the block is
-its own specimen. The remaining fourteen repeat those kinds with the harder
+its own specimen. The remaining twenty-four repeat those kinds with the harder
 cases: a second date written `23 Dec 2026`, a timestamp keeping both halves, a
-list of addresses, and the two `x-types` corrections.
+list of addresses, the values that try to carry two facts at once, and the three
+`x-types` corrections.
 
 `≤7 keys` → no toggle at all. `>7` → **"N more properties"** with a chevron-down;
 expanded it reads **"Hide N properties"** with chevron-up.
@@ -295,6 +369,95 @@ x-types:
 Listed keys take the named kind; everything unlisted still infers. The table
 itself never renders as a row.
 
+## One key, one fact
+
+Inference reads the value as a *single string*. A value carrying two facts
+matches no shape test and falls to text, which is the safe direction to be wrong
+in but costs both marks:
+
+```yaml
+owner_and_tags: thang.lk@holistics.io [a,b,c]   # → text, not person + chips
+signed_off: thang.lk@holistics.io 14:30         # → text, not person + time
+```
+
+Both are valid YAML — `[` is only special at the *start* of a plain scalar, so
+neither is a parse error. They are one string each, and the email test is
+anchored `^…$`, so the space defeats it. What renders is the whole string with
+the text mark: no `mailto:`, no pills, no clock.
+
+This is not a gap to be closed. Splitting a compound value means inventing a
+micro-syntax that isn't YAML, and every pairing needs its own rule — email+time,
+email+role, url+label, name+email — with the ambiguities that follow. Is
+`a@b.com (analytics)` an address and a team, or text that contains parentheses?
+It is the same trap `HUMAN_DATE_RE` avoids by refusing `Date.parse`.
+
+Every combination, as it actually renders:
+
+| Written | Kind | What is lost |
+| --- | --- | --- |
+| `x: thang.lk@holistics.io [a,b,c]` | text | mailto, pills |
+| `x: thang.lk@holistics.io, a, b` | text | mailto, pills |
+| `x: thang.lk@holistics.io 14:30` | text | mailto, clock |
+| `x: https://docs.holistics.io [a,b]` | text | link mark |
+| `x: Thang Do <thang.lk@holistics.io>` | text | mailto — the angle-bracket form is not read |
+| `x: [thang.lk@holistics.io, a, b]` | chips | mailto — the address becomes a grey pill |
+| `x: {email: …, tags: [a, b]}` | chips | *the values* — a map is summarised by its keys |
+| `x: 2026-12-23 09:30` | **time** | nothing — see below |
+
+### The pair that does combine
+
+A date and a time in one value is the single exception, because one test matches
+the pair whole rather than two tests matching halves:
+
+```yaml
+released_at: 2026-12-23 09:30      # → time, prints "Dec 23, 2026, 09:30"
+released_at: 2026-12-23T09:30      # → the same
+released_at: 23 Dec 2026 09:30     # → text; the human date has no timestamp form
+```
+
+Only the ISO shape. Seconds are accepted and then dropped — `09:30:05` prints
+`09:30` — where a *bare* time keeps them. And the reserved `updated` key is
+formatted as a date whatever it holds, so a timestamp there prints raw
+(`2026-08-04T14:30:00Z`) rather than formatted; write the date alone.
+
+### Two keys, one fact each
+
+The fix is always structural, and it needs no override:
+
+```yaml
+signed_off_by: thang.lk@holistics.io   # → person, links
+signed_off_at: "14:30"                 # → time, clock mark
+```
+
+`_by` / `_at` / `_on` is the convention worth reaching for — the same pairing SQL
+audit columns and event schemas use, and it happens to type correctly here for
+free. One key holds one fact, exactly as a column holds one type.
+
+### The mixed list, and the one override that helps
+
+A list is the case most likely to degrade without anyone noticing. Every item
+being an address makes the field a list of people; *one* item that isn't drops
+the whole run to pills, and the addresses stop being links:
+
+```yaml
+approvers: [thang.lk@holistics.io, unassigned]   # → chips, both grey pills
+```
+
+`person` is the way back, and it is the one override that reads *through* to the
+items — each is tested on its own, so the address links and the bare word beside
+it prints as a name:
+
+```yaml
+x-types:
+  approvers: person
+```
+
+An override states meaning, though, and does not parse. Asking for `person` on a
+compound scalar types the row and nothing more: `owner_and_tags` becomes a person
+whose *name* is the entire string `thang.lk@holistics.io [a,b,c]`, with no
+address found and so no link. There is no override that rescues a value carrying
+two facts — only two keys do.
+
 ## Value treatments
 
 ```text
@@ -302,7 +465,7 @@ boolean      ☑            ← indicator, not an <input>; aria-label "true"
 chips        (holistics) (bi) (aql)        ← HTag, theme gray
 number       1284         ← as authored, no separators, tabular figures
 date         Aug 4, 2026  ← 2026-08-04 and 23 Dec 2026 both print this way
-time         09:30        ← 24-hour; seconds kept; a timestamp keeps its date
+time         09:30        ← 24-hour; a bare time keeps seconds, a timestamp drops them
 person       huy.vu@holistics.io           ← mailto:, name in title=, no avatar
 file (ok)    📄 Renderer tokens            ← blue + type glyph
 file (gone)  📄̶ This one is missing        ← grey + dashed underline
@@ -848,7 +1011,7 @@ clipped, at rest   ┌───────────────────�
 
 clipped, mid       ┌────────────────────────────┐
                    │▒│ uery  │ Owner  │ Resul │▒│   both shades
-                   └────���───────────────────────┘
+                   └────────────────────────────┘
 
 clipped, at end    ┌────────────────────────────┐
                    │▒│ ery   │ Owner  │ Result  │   left shade only
@@ -938,3 +1101,6 @@ sequenceDiagram
 
 Below a rule the gap is 12px, not 16px — a rule has no space-after token, so the
 next block falls back to `block-space-before`.
+
+
+![](https://static.vecteezy.com/system/resources/thumbnails/054/876/032/small/mirror-image-snow-capped-mountain-peaks-reflected-in-pristine-lake-free-photo.jpg)
